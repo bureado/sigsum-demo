@@ -1,0 +1,16 @@
+FROM golang:alpine
+
+# Install sigsum
+RUN go install sigsum.org/sigsum-go/cmd/sigsum-key@v0.8.0
+RUN go install sigsum.org/sigsum-go/cmd/sigsum-submit@v0.8.0
+RUN go install sigsum.org/sigsum-go/cmd/sigsum-verify@v0.8.0
+RUN go install sigsum.org/sigsum-go/cmd/sigsum-monitor@v0.8.0
+
+RUN apk add nano bash
+
+# Copy default trust policy
+COPY trust_policy /etc/sigsum/trust_policy
+
+COPY verify.sh /verify.sh
+
+COPY payload.exe /payload.exe
